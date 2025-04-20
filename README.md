@@ -30,7 +30,7 @@ WeatherApp
 └── README.md
 
 
-Description:
+### Description:
 A Go-based web service that allows users to subscribe for weather notifications based on customizable conditions (e.g., "temperature < 0"). If the specified weather condition is met in the selected city, a daily email notification is sent.
 
 ###  Layers
