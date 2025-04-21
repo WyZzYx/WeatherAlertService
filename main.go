@@ -3,6 +3,8 @@ package main
 import (
 	"WeatherApp/initializers"
 	"WeatherApp/services"
+	"fmt"
+	"github.com/robfig/cron/v3"
 
 	"WeatherApp/utils"
 	"log"
@@ -32,4 +34,12 @@ func main() {
 	if err != nil {
 		log.Fatal("Failed to start server:", err)
 	}
+
+	c := cron.New()
+	c.AddFunc("@daily", func() {
+		fmt.Println("⏰ Running daily weather notifications...")
+		services.ProcessSubscriptionsAndNotify()
+	})
+	c.Start()
+
 }

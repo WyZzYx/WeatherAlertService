@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"time"
 )
 
 type SubscriptionInput struct {
@@ -35,7 +36,12 @@ func SubscribeUser(c *gin.Context) {
 	}
 	initializers.DB.FirstOrCreate(&sub, models.Subscription{City: input.City, Condition: input.Condition})
 	initializers.DB.Model(&user).Association("Subscriptions").Append(&sub)
-
+	initializers.DB.Create(&models.NotificationHistory{
+		Email:     user.Email,
+		City:      sub.City,
+		Condition: sub.Condition,
+		SentAt:    time.Now().Unix(),
+	})
 	utils.SendEmail(user.Email, fmt.Sprintf("Subscribed to weather alerts in %s with condition: %s", sub.City, sub.Condition))
 	c.JSON(http.StatusOK, gin.H{"message": "Subscription created"})
 }

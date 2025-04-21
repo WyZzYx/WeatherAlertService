@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"WeatherApp/initializers"
+	"WeatherApp/models"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -8,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
 
 type WeatherResponse struct {
@@ -58,6 +61,11 @@ func GetWeather(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Parsing error"})
 		return
 	}
+	initializers.DB.Save(&models.WeatherLog{
+		City:        weather.Location.Name,
+		Temperature: weather.Current.TempC,
+		UpdatedAt:   time.Now().Unix(),
+	})
 
 	c.JSON(http.StatusOK, gin.H{
 		"city":        weather.Location.Name,
