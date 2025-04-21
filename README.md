@@ -66,6 +66,9 @@ A Go-based web service that allows users to subscribe for weather notifications 
 | POST   | `/users`           | Create a new user                    |
 | POST   | `/subscriptions`   | Subscribe a user to a weather alert |
 
+### 4. **Logs**
+Logs of every endppoint interraction are being saved into the database.
+
 ##  Choice of Technologies
 - **GORM**: The most popular ORM service, provides migrations, and easy model handling.
 - **PostgreSQL**: Advanced features, flexibility, scalability, and a robust ecosystem of tools and extensions
